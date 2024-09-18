@@ -1,38 +1,192 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Container principal */
+.agents-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  height: 100vh;
+  background: linear-gradient(135deg, #2e0249, #1f0039);
+  background-size: cover;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
 }
 
-.App-link {
-  color: #61dafb;
+/* Título Principal */
+.title {
+  font-size: 4rem;
+  color: #e0c3fc;
+  text-align: center;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  text-shadow: 0px 0px 30px rgba(192, 192, 255, 0.8), 0px 0px 20px rgba(0, 0, 0, 0.7);
+  animation: fadeIn 1s ease-in-out;
+  font-family: 'Orbitron', sans-serif;
+  position: relative; /* Garante que o título fique acima do fundo */
+  z-index: 1;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Carrossel de Agentes */
+.agents-carousel {
+  display: flex;
+  overflow-x: auto;
+  width: 80%;
+  max-width: 1200px;
+  margin-bottom: 20px;
+  position: relative;
+  scroll-snap-type: x mandatory;
+  gap: 20px; /* Espaço entre os cards */
+  padding: 10px 0; /* Espaço para setas de navegação */
+  z-index: 1; /* Garante que o carrossel fique acima do fundo */
+}
+
+/* Define a largura do carrossel para mostrar apenas 3 cards visíveis inicialmente */
+.agents-carousel::-webkit-scrollbar {
+  display: none; /* Oculta a barra de rolagem padrão */
+}
+
+.agent-card {
+  flex: 0 0 auto; /* Faz com que cada card tenha tamanho fixo */
+  width: 250px;
+  height: 350px;
+  margin: 0;
+}
+
+/* Botões de navegação do carrossel */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(45, 10, 78, 0.8);
+  color: #e0c3fc;
+  border: none;
+  padding: 15px;
+  cursor: pointer;
+  z-index: 2; /* Garante que as setas fiquem acima do carrossel */
+  font-size: 2rem;
+  border-radius: 50%;
+  box-shadow: 0px 0px 15px rgba(192, 192, 255, 0.6);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.carousel-arrow:hover {
+  background-color: rgba(75, 0, 130, 0.9);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-arrow.left {
+  left: -50px;
+}
+
+.carousel-arrow.right {
+  right: -50px;
+}
+
+/* Efeito de Flip nos Cards */
+.agent-card {
+  perspective: 1000px;
+}
+
+.agent-card-inner {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.agent-card:hover .agent-card-inner {
+  transform: rotateY(180deg);
+}
+
+.agent-card-front, .agent-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.agent-card-front {
+  background: #4b0082;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+  box-shadow: 0px 0px 15px rgba(192, 192, 255, 0.4);
+  color: #e0c3fc;
+  text-align: center;
+}
+
+.agent-card-back {
+  background: #2e0249;
+  color: #ddd;
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+  box-shadow: 0px 0px 15px rgba(192, 192, 255, 0.4);
+  text-align: center;
+}
+
+.agent-card-front img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 15px rgba(75, 0, 130, 0.7);
+  transition: transform 0.3s ease;
+}
+
+.agent-card:hover .agent-card-front img {
+  transform: scale(1.1);
+}
+
+.agent-card-front h3 {
+  font-size: 1.5rem;
+  margin-top: 20px;
+  text-shadow: 0px 0px 10px rgba(192, 192, 255, 0.7);
+}
+
+.agent-card-back h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.agent-card-back p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Painel do agente selecionado */
+.agent-panel {
+  display: none; /* Esconde o painel de agente */
+}
+
+.agent-panel img {
+  height: 100%;
+  width: auto;
+  max-width: 50vw;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px rgba(75, 0, 130, 0.7);
+}
+
+.agent-panel .info {
+  margin-left: 20px;
+  max-width: 40vw;
+}
+
+.agent-panel h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.agent-panel p {
+  font-size: 1.2rem;
+  line-height: 1.5;
 }
